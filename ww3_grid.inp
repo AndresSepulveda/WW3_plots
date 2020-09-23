@@ -1,0 +1,83 @@
+$ -------------------------------------------------------------------- $
+$ WAVEWATCH III Grid preprocessor input file                           $
+$ NEST GRID                                                            $
+$ -------------------------------------------------------------------- $
+$ AUGUST 2020                                                           $
+$ -------------------------------------------------------------------- $
+$ Grid name (C*30, in quotes)                                          $
+$ -------------------------------------------------------------------- $
+  'Aysen_v2 - FL-LS'
+$ -------------------------------------------------------------------- $
+$ Frequency increment factor and first frequency (Hz),                 $
+$ number of frequencies (wavenumbers) and directions, relative offset  $
+$ -------------------------------------------------------------------- $
+  1.1 0.0373 32 24 0.
+$ -------------------------------------------------------------------- $
+$ Set model flags                                                      $
+$  - FLDRY         Dry run (input/output only, no calculation).        $
+$  - FLCX, FLCY    Activate X and Y component of propagation.          $
+$  - FLCTH, FLCK   Activate direction and wavenumber shifts.           $
+$  - FLSOU         Activate source terms.                              $
+$ -------------------------------------------------------------------- $
+  F T T T T T$
+$ -------------------------------------------------------------------- $
+$ Set time steps                                                       $
+$ - Time step information (this information is always read)            $
+$ - Maximum global time step, maximum CFL time step for x-y and        $
+$ - k-theta, minimum source term time step (all in seconds).           $
+$ -------------------------------------------------------------------- $
+  150. 100. 50. 10.
+$ -------------------------------------------------------------------- $
+$ Source terms (CFSR)                                                  $
+$ -------------------------------------------------------------------- $
+&UG  UGOBCAUTO = T,  EXPFSN = T /  
+&OUTS E3D = 1 /
+&SIN4
+  BETAMAX = 1.33,
+  SWELLF  = 0.66
+/
+END OF NAMELISTS
+$ -------------------------------------------------------------------- $
+$ Define grid                                                          $
+$ -------------------------------------------------------------------- $
+  'UNST' T 'NONE'
+$ -------------------------------------------------------------------- $
+$ Limiting bottom depth (m) to discriminate between land and sea       $
+$ points, minimum water depth (m) as allowed in model, unit number     $
+$ of file with bottom depths, scale factor for bottom depths (mult.),  $
+$ IDLA, IDFM, format for formatted read, FROM and filename.            $
+$ LBOT MINBOT UBDEPTH FACTOR IDLA IDFM 'NAME' 'filename'               $
+$ -------------------------------------------------------------------- $
+      4.0 0.30  20  -1. 4 1 '(20f10.2)'  'NAME' 'final_vWW3_CA_02_coarse.msh'
+$ -------------------------------------------------------------------- $
+$ If the above unit number equals 10, the bottom data is read from     $
+$ this file and follows below (no intermediate comment lines allowed). $
+$ -------------------------------------------------------------------- $
+  10 3 1 '(....)' 'PART' 'mapsta.inp'
+$ -------------------------------------------------------------------- $
+$ Input boundary points and excluded points                            $
+$ -------------------------------------------------------------------- $
+  1      1   F
+  160    1   T
+$ -------------------------------------------------------------------- $
+$ Close list by defining point (0,0) (mandatory)                       $
+$ -------------------------------------------------------------------- $
+  0  0  F
+$ -------------------------------------------------------------------- $
+$ Excluded grid points from segment data ( FROM != PART )              $
+$ First defined as lines, identical to the definition of the input     $
+$ boundary points, and closed the same way.                            $
+$ -------------------------------------------------------------------- $
+  0  0  F
+$ -------------------------------------------------------------------- $
+$ Second, define a point in a closed body of sea points to remove      $
+$ the entire body of sea points. Also close by point (0,0)             $
+$ -------------------------------------------------------------------- $
+  0  0
+$ -------------------------------------------------------------------- $
+$ Close list by defining line with 0 points (mandatory)                $
+$ -------------------------------------------------------------------- $
+  0.    0.    0.    0.       0
+$ -------------------------------------------------------------------- $
+$ End of input file - FL                                               $
+$ -------------------------------------------------------------------- $
